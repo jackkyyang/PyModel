@@ -94,10 +94,10 @@ class Bits:
     def __mod__(self, other):
         return Bits(self.value % other.value, other.__width)
 
-    def __eq__(self, other) -> "Bits":
+    def __eq__(self, other) -> "Bits": # type: ignore
         return Bits(self.value == other.value, 1)
 
-    def __ne__(self, other) -> "Bits":
+    def __ne__(self, other) -> "Bits": # type: ignore
         return Bits(self.value != other.value, 1)
 
     def __lt__(self, other):
@@ -146,6 +146,10 @@ class Bits:
                 return Bits(reversed_value, result_width)
         else:
             raise TypeError("Invalid argument type for indexing")
+
+    def __iter__(self):
+        for i in range(self.__width):
+            yield self[i]
 
     def __bin_str(self):
         bin_str = bin(self.value)[2:].zfill(self.__width)
@@ -252,3 +256,6 @@ if __name__ == "__main__":
         print(e)
     print(v_a[0:6]) # Bits: bin: 010_1000, hex: 28, uint: 40, sint: 40
     print(v_a[6:0]) # Bits: bin: 000_1010, hex: 0a, uint: 10, sint: 10
+
+    for bit in v_a:
+        print(bit)
